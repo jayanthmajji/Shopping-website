@@ -11,7 +11,7 @@ export const Home = () => {
     const data = await res.json();
 
     const updatedData = data.map((product) => {
-      const isInCart = verifyProduct(product);
+      const isInCart = verifyProduct(product.id);
 
       return { ...product, isAdded: isInCart };
     });
