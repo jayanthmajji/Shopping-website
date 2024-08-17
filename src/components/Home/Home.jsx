@@ -21,7 +21,6 @@ export const Home = () => {
   useEffect(() => {
     getData();
   }, [cart]);
-  console.log("products", products);
 
   return (
     <>

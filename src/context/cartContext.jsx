@@ -10,8 +10,6 @@ export const CartContextProvider = ({ children }) => {
   );
 
   const addToCart = (product) => {
-    console.log("products", product.isAdded);
-
     if (product.isAdded === false) {
       product.isAdded = true;
       setCart([...cart, { ...product, quantity: 1 }]);
@@ -23,8 +21,6 @@ export const CartContextProvider = ({ children }) => {
   };
 
   const updateCart = (product, quantity) => {
-    console.log("quantity", quantity);
-
     setCart(
       cart.map((cartItem) =>
         cartItem.id === product.id
@@ -42,7 +38,6 @@ export const CartContextProvider = ({ children }) => {
 
   const verifyProduct = (productId) => {
     const isInCart = cart.some(({ id }) => id == productId);
-    console.log("Product is in cart:", isInCart);
     return isInCart;
   };
   //1 load data from local storage to usesate

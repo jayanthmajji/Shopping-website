@@ -17,11 +17,9 @@ function Cart() {
   };
 
   useEffect(() => {
-    console.log("shipping --------------", shipping);
     let totalAmount = Number(shipping) + Number(Subtotal);
     setFinalAmount(totalAmount);
   }, [Subtotal]);
-  console.log("final amount ----------", finalAmount);
 
   useEffect(() => {
     let temp = 0;
@@ -43,76 +41,91 @@ function Cart() {
       ) : (
         <>
           {cart.length != 0 ? (
-            <div className="mx-auto max-w-7xl md:mb-8  p-8 flex flex-col gap-3 md:flex-row">
+            <div className="mx-auto max-w-7xl md:mb-8  p-4 flex flex-col gap-3 md:flex-row">
               <div className="w-full md:w-2/3 p-4">
                 {cart.map((product) => (
-                  <li key={product.id} className="flex py-6">
-                    <div className="h-27 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-300">
+                  <li
+                    key={product.id}
+                    className="flex flex-col sm:flex-row py-6 gap-3 shadow-sm mb-2"
+                  >
+                    <div className="w-40 sm:w-24 sm:h-auto flex-shrink-0 rounded-md">
                       <img
                         src={product.image}
-                        className="h-31 w-31 object-cover object-center p-1"
+                        alt={product.title}
+                        className="w-full h-full"
                       />
                     </div>
 
-                    <div className="ml-4 flex flex-1 flex-col">
-                      <div>
-                        <div className="flex justify-between text-base font-medium text-gray-900">
-                          <h3>
-                            <a className="p-3" href="#">
-                              {product.title}
-                            </a>
-                          </h3>
-                          <Menu
-                            as="div"
-                            className="relative inline-block text-left"
-                          >
-                            <div>
-                              <MenuButton className="inline-flex w-full justify-center gap-1.5 rounded-md bg-white p-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                                {product.quantity}
-                                <ChevronDownIcon
-                                  aria-hidden="true"
-                                  className="-mr-1 h-5 w-5 text-gray-400"
-                                />
-                              </MenuButton>
-                            </div>
-
-                            <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in">
-                              <div className="py-1">
-                                {[1, 2, 3, 4, 6, 7, 8].map((quantity) => (
-                                  <MenuItem key={quantity} value={quantity}>
-                                    {() => (
-                                      <button
-                                        onClick={(e) => {
-                                          updateCart(product, e.target.value);
-                                        }}
-                                        className="block w-full px-4 py-2 text-left text-sm"
-                                      >
-                                        {quantity}
-                                      </button>
-                                    )}
-                                  </MenuItem>
-                                ))}
-                              </div>
-                            </MenuItems>
-                          </Menu>
-                        </div>
-                        <p className="mt-1 text-sm text-gray-500"></p>
-                      </div>
-                      <div className="flex flex-1 items-end justify-between text-sm">
-                        <p className="ml-4 size-9 text-slate-900 font-semibold">
-                          Rs.{product.price}
+                    <div className="flex flex-1 flex-col sm:ml-4 p-2">
+                      <div className="flex justify-between text-base sm:font-medium text-gray-900">
+                        <p className="text-lg sm:text-sm text-left">
+                          {product.title}
                         </p>
-                        <div className="flex">
-                          <button
-                            onClick={(e) => {
-                              removeFromCart(product);
-                            }}
-                            type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                          >
-                            Remove
-                          </button>
-                        </div>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2">
+                        <Menu
+                          as="div"
+                          className="relative inline-block text-left mt-2 sm:mt-0"
+                        >
+                          <div className="flex items-center">
+                            <MenuButton className="inline-flex justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                              {product.quantity}
+                              <ChevronDownIcon
+                                aria-hidden="true"
+                                className="-mr-1 h-5 w-5 text-gray-400"
+                              />
+                            </MenuButton>
+
+                            <button
+                              onClick={() => removeFromCart(product)}
+                              type="button"
+                              className="ml-3"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="h-6 w-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M6 18L18 6M6 6l12 12"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+
+                          <MenuItems className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none">
+                            <div className="py-1">
+                              {[1, 2, 3, 4, 6, 7, 8].map((quantity) => (
+                                <MenuItem key={quantity} value={quantity}>
+                                  {() => (
+                                    <button
+                                      onClick={() =>
+                                        updateCart(product, quantity)
+                                      }
+                                      className="block w-full px-4 py-2 text-left text-sm"
+                                    >
+                                      {quantity}
+                                    </button>
+                                  )}
+                                </MenuItem>
+                              ))}
+                            </div>
+                          </MenuItems>
+                        </Menu>
+
+                        <p className="mt-2 sm:mt-0 text-sm text-gray-500"></p>
+                      </div>
+
+                      <div className="flex justify-between items-end text-sm mt-4 sm:mt-2">
+                        <p className="text-lg sm:text-xl text-slate-900 font-semibold">
+                          Rs. {product.price}
+                        </p>
                       </div>
                     </div>
                   </li>
